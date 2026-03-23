@@ -1,16 +1,8 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    { "src": "/uploads/(.*)", "dest": "/server.js" },
-    { "src": "/api/(.*)", "dest": "/server.js" },
-    { "src": "/carta", "dest": "/server.js" },
-    { "src": "/admin", "dest": "/server.js" },
-    { "src": "/(.*)", "dest": "/public/$1" }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/carta", "destination": "/carta.html" },
+    { "source": "/admin", "destination": "/admin.html" }
   ]
 }
