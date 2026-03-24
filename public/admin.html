@@ -619,7 +619,12 @@
 
   <div class="toast" id="toast"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
+    const SUPABASE_URL = 'https://fapciumbeoawyrkijpxe.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Wha_sWqCl-MkGllOb8VIgg_SKPzlNQr';
+    const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     let token = localStorage.getItem('sushikun_token') || '';
     let dishes = [];
 
@@ -680,6 +685,29 @@
       }
     }
     checkAuth();
+
+    // --- Image upload to Supabase Storage ---
+    async function uploadImageToStorage(file) {
+      const ext = file.name.split('.').pop().toLowerCase();
+      const randomHex = Array.from(crypto.getRandomValues(new Uint8Array(4)))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
+      const fileName = `${Date.now()}-${randomHex}.${ext}`;
+
+      const { data, error } = await sbClient.storage
+        .from('dish-images')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) throw error;
+
+      const { data: urlData } = sbClient.storage
+        .from('dish-images')
+        .getPublicUrl(fileName);
+
+      return urlData.publicUrl;
+    }
 
     // --- CRUD ---
     async function loadDishes() {
@@ -788,22 +816,43 @@
       const name = document.getElementById('dishName').value.trim();
       if (!name) { showToast('El nombre es obligatorio', true); return; }
 
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('description', document.getElementById('dishDesc').value.trim());
-      formData.append('category', document.getElementById('dishCategory').value);
-
-      const imageFile = document.getElementById('dishImage').files[0];
-      if (imageFile) formData.append('image', imageFile);
-
-      const url = id ? `/api/admin/dishes/${id}` : '/api/admin/dishes';
-      const method = id ? 'PUT' : 'POST';
+      const saveBtn = document.getElementById('saveBtn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'GUARDANDO...';
 
       try {
+        let imageUrl = null;
+        const imageFile = document.getElementById('dishImage').files[0];
+
+        if (imageFile) {
+          imageUrl = await uploadImageToStorage(imageFile);
+        }
+
+        const body = {
+          name,
+          description: document.getElementById('dishDesc').value.trim(),
+          category: document.getElementById('dishCategory').value
+        };
+
+        if (imageUrl) {
+          body.image = imageUrl;
+        }
+
+        if (!id) {
+          body.visible = true;
+          body.order = dishes.length;
+        }
+
+        const url = id ? `/api/admin/dishes/${id}` : '/api/admin/dishes';
+        const method = id ? 'PUT' : 'POST';
+
         const res = await fetch(url, {
           method,
-          headers: { 'Authorization': `Bearer ${token}` },
-          body: formData
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
         });
 
         if (res.ok) {
@@ -813,8 +862,12 @@
         } else {
           showToast('Error guardando plato', true);
         }
-      } catch {
+      } catch (err) {
+        console.error(err);
         showToast('Error de conexion', true);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'GUARDAR';
       }
     }
 
@@ -840,14 +893,14 @@
       const dish = dishes.find(d => d.id === id);
       if (!dish) return;
 
-      const formData = new FormData();
-      formData.append('visible', dish.visible === false ? 'true' : 'false');
-
       try {
         await fetch(`/api/admin/dishes/${id}`, {
           method: 'PUT',
-          headers: { 'Authorization': `Bearer ${token}` },
-          body: formData
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ visible: dish.visible === false ? true : false })
         });
         loadDishes();
       } catch {
