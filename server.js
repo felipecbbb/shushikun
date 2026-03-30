@@ -143,6 +143,10 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
+app.get('/privacidad', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'privacidad.html'));
+});
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Sushi Kun server running at http://localhost:${PORT}`);

@@ -1006,6 +1006,95 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   color: var(--dimmed);
 }
 
+/* ===== COOKIE BANNER ===== */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(15, 10, 12, 0.97);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(212, 43, 43, 0.2);
+  padding: 20px 40px;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+
+.cookie-banner.visible {
+  transform: translateY(0);
+}
+
+.cookie-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.cookie-content p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.cookie-content a {
+  color: var(--red);
+  text-decoration: underline;
+}
+
+.cookie-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.cookie-btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cookie-btn--accept {
+  background: var(--red);
+  color: #fff;
+}
+
+.cookie-btn--accept:hover {
+  background: var(--red-dark);
+}
+
+.cookie-btn--reject {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(160, 148, 140, 0.3);
+}
+
+.cookie-btn--reject:hover {
+  border-color: var(--muted);
+  color: var(--cream);
+}
+
+.footer-legal-link {
+  color: var(--dimmed);
+  text-decoration: none;
+  margin-left: 8px;
+  transition: color 0.3s;
+}
+
+.footer-legal-link:hover {
+  color: var(--red);
+}
+
 /* ===== SCROLL ANIMATIONS ===== */
 .reveal {
   opacity: 0;
@@ -1072,6 +1161,8 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
   .footer-top { flex-direction: column; gap: 40px; }
   .footer-nav { flex-wrap: wrap; gap: 30px; }
+  .cookie-content { flex-direction: column; text-align: center; }
+  .cookie-actions { justify-content: center; }
 }
 
 @media (max-width: 480px) {

@@ -11,6 +11,7 @@
   },
   "rewrites": [
     { "source": "/carta", "destination": "/carta.html" },
+    { "source": "/privacidad", "destination": "/privacidad.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/api/:path*", "destination": "/api/:path*" }
   ],

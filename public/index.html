@@ -3,12 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sushi Kun - Cocina Japonesa Autentica en Las Palmas</title>
+  <title>Sushi Kun | Restaurante Japones en Las Palmas de Gran Canaria</title>
+  <meta name="description" content="Sushi Kun: restaurante japones en Las Palmas de Gran Canaria. Sushi, nigiris, sashimi, gyouza y empanadillas. Buffet libre 17,90. Delivery Uber Eats, Glovo, Just Eat. Recogida con 10% descuento.">
+  <meta name="keywords" content="sushi las palmas, restaurante japones las palmas, sushi kun, comida japonesa gran canaria, nigiris las palmas, sashimi las palmas, gyouza, buffet japones las palmas, delivery sushi las palmas, takeaway japones, restaurante japones calle carvajal, sushi rolls las palmas, comida japonesa a domicilio">
+  <meta name="author" content="Sushi Kun">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://shushikun.vercel.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="restaurant">
+  <meta property="og:title" content="Sushi Kun | Restaurante Japones en Las Palmas">
+  <meta property="og:description" content="Cocina japonesa autentica en Las Palmas de Gran Canaria. Sushi, nigiris, sashimi, gyouza. Buffet libre 17,90. Delivery y recogida con 10% dto.">
+  <meta property="og:url" content="https://shushikun.vercel.app/">
+  <meta property="og:image" content="https://shushikun.vercel.app/IMG_2707.jpeg">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Sushi Kun">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sushi Kun | Restaurante Japones en Las Palmas">
+  <meta name="twitter:description" content="Cocina japonesa autentica en Las Palmas. Sushi, nigiris, sashimi, gyouza. Buffet libre 17,90.">
+  <meta name="twitter:image" content="https://shushikun.vercel.app/IMG_2707.jpeg">
+
+  <!-- Geo -->
+  <meta name="geo.region" content="ES-CN">
+  <meta name="geo.placename" content="Las Palmas de Gran Canaria">
+  <meta name="geo.position" content="28.1096;-15.4134">
+
   <link rel="icon" type="image/jpeg" href="WhatsApp Image 2026-03-18 at 14.19.03.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Sushi Kun",
+    "image": "https://shushikun.vercel.app/IMG_2707.jpeg",
+    "url": "https://shushikun.vercel.app",
+    "telephone": "+34928171672",
+    "servesCuisine": ["Japonesa", "Sushi", "Comida asiatica"],
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle Carvajal, 1",
+      "addressLocality": "Las Palmas de Gran Canaria",
+      "postalCode": "35004",
+      "addressRegion": "Las Palmas",
+      "addressCountry": "ES"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 28.1096,
+      "longitude": -15.4134
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "12:00",
+        "closes": "16:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "20:00",
+        "closes": "00:00"
+      }
+    ],
+    "menu": "https://shushikun.vercel.app/carta",
+    "hasMenu": {
+      "@type": "Menu",
+      "name": "Carta Sushi Kun",
+      "url": "https://shushikun.vercel.app/carta"
+    },
+    "acceptsReservations": "True"
+  }
+  </script>
 </head>
 <body>
 
@@ -274,10 +348,37 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>2024 Sushi Kun. Todos los derechos reservados.</p>
+      <p>2024 Sushi Kun. Todos los derechos reservados. <a href="/privacidad" class="footer-legal-link">Politica de Privacidad</a></p>
     </div>
   </footer>
 
+  <!-- Cookie Consent Banner -->
+  <div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-content">
+      <p>Usamos cookies propias para mejorar tu experiencia en nuestra web. Al continuar navegando, aceptas su uso. <a href="/privacidad">Mas informacion</a></p>
+      <div class="cookie-actions">
+        <button class="cookie-btn cookie-btn--accept" id="cookieAccept">Aceptar</button>
+        <button class="cookie-btn cookie-btn--reject" id="cookieReject">Rechazar</button>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
+  <script>
+    (function() {
+      var consent = localStorage.getItem('cookie_consent');
+      if (!consent) {
+        document.getElementById('cookieBanner').classList.add('visible');
+      }
+      document.getElementById('cookieAccept').addEventListener('click', function() {
+        localStorage.setItem('cookie_consent', 'accepted');
+        document.getElementById('cookieBanner').classList.remove('visible');
+      });
+      document.getElementById('cookieReject').addEventListener('click', function() {
+        localStorage.setItem('cookie_consent', 'rejected');
+        document.getElementById('cookieBanner').classList.remove('visible');
+      });
+    })();
+  </script>
 </body>
 </html>
